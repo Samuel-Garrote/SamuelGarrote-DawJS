@@ -1,0 +1,23 @@
+body{
+    background-color: lightcoral;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+h1{
+    color: white;
+    font-size: 24px;
+}
+
+.estiloNuevo {
+    color: yellow;
+    font-size: large;
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: underline;
+}
