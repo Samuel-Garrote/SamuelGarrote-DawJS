@@ -1,0 +1,35 @@
+/* Estado */
+#estado {
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+/* Contenedor de usuarios */
+#contenedorUsuarios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+/* Tarjetas de usuario */
+.card {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+/* Hover sobre tarjeta */
+.card:hover {
+    transform: scale(1.05);
+    background-color: #d0f0ff;
+}
+
+/* Textos dentro de la tarjeta */
+.card p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+}

@@ -1,0 +1,22 @@
+/*loader oculto por defecto*/
+
+
+
+#loader{
+display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-90%, -50%);
+  font-size: 2rem;
+  color: blue;
+  font-weight: bold;
+}
+
+
+/* Para la respuesta */
+#respuesta {
+  margin-top: 20px;
+  white-space: pre-wrap; /* Para que JSON se vea legible */
+  font-family: monospace;
+}
