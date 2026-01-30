@@ -1,46 +1,58 @@
 const input = document.getElementById("input")
 const botonGuardar = document.getElementById("guardar")
 const respuesta = document.getElementById("respuesta")
+const ul = document.getElementById("contenedor")
 
-let listaNotas = [{contenido: "Ejemplo", hecho: false}
+// Cargar desde LocalStorage al inicio
+let listaNotas = JSON.parse(localStorage.getItem("nota")) || [{contenido: "Ejemplo", hecho: false}];
 
-];
+function pintarLista() {
+    ul.textContent = ""; // Limpiar lista
+    listaNotas.forEach((notilla, index) => {
+        let li = document.createElement("li")
+        li.textContent = notilla.contenido;
 
-botonGuardar.addEventListener("click", function(){
+        // Si ya estaba marcado como hecho
+        if (notilla.hecho) li.style.textDecoration = "line-through";
 
-    const nota = input.value
-    listaNotas.push({contenido: nota, hecho: false})
-    //Guardado desde dentro
-    localStorage.setItem("nota", JSON.stringify(listaNotas))
-    respuesta.textContent = "El contenido ha sido guardado con éxito."
-    respuesta.style.color="green"
-    
-    const ul = document.getElementById("contenedor")
-    ul.textContent = "";
-    listaNotas.forEach((notilla)=>{
-        
         let botonHecho = document.createElement("button")
         botonHecho.textContent = "Hecho/No Hecho"
-        let li = document.createElement("li")
-        
-        li.textContent = notilla.contenido;
-        li.appendChild(botonHecho)
-        ul.appendChild(li)
+        botonHecho.style.marginLeft = "10px"
+        botonHecho.style.padding = "5px 8px"
+        botonHecho.style.border = "none"
+        botonHecho.style.borderRadius = "5px"
+        botonHecho.style.backgroundColor = "#2196f3"
+        botonHecho.style.color = "white"
+        botonHecho.style.cursor = "pointer"
+        botonHecho.style.transition = "background 0.3s"
+
+        botonHecho.addEventListener("mouseover", () => botonHecho.style.backgroundColor = "#1976d2")
+        botonHecho.addEventListener("mouseout", () => botonHecho.style.backgroundColor = "#2196f3")
 
         botonHecho.addEventListener("click", function(){
-            if(li.style.textDecoration !== "line-through" && notilla.hecho === false){
-            notilla.hecho = !notilla.hecho;
-            li.style.textDecoration = "line-through"
-            respuesta.textContent = "Respuesta tachada correctamente"
-            return;
-            }else{
-                li.style.textDecoration = "none"
-                respuesta.textContent = "Respuesta des-tachada correctamente"
-                return;
-            }
+            notilla.hecho = !notilla.hecho
+            li.style.textDecoration = notilla.hecho ? "line-through" : "none"
+            respuesta.textContent = notilla.hecho ? "Respuesta tachada correctamente" : "Respuesta des-tachada correctamente"
             localStorage.setItem("nota", JSON.stringify(listaNotas))
-        }
-    )
-    })
+        })
 
+        li.appendChild(botonHecho)
+        ul.appendChild(li)
+    })
+}
+
+// Inicializar la lista al cargar la página
+pintarLista()
+
+botonGuardar.addEventListener("click", function(){
+    const nota = input.value.trim()
+    if(!nota) return // Evita añadir notas vacías
+
+    listaNotas.push({contenido: nota, hecho: false})
+    localStorage.setItem("nota", JSON.stringify(listaNotas))
+    respuesta.textContent = "El contenido ha sido guardado con éxito."
+    respuesta.style.color = "green"
+    input.value = "" // Limpiar input
+
+    pintarLista()
 })

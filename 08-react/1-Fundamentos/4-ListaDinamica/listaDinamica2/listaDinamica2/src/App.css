@@ -1,0 +1,28 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  margin-top: 50px;
+  align-items: center;
+  
+
+}
+
+input {
+  padding: 6px;
+  margin-right: 6px;
+}
+
+button {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+ul {
+  margin-top: 20px;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  padding: 4px 0;
+}

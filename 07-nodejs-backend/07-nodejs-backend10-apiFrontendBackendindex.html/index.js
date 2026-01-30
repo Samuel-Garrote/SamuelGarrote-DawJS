@@ -12,12 +12,19 @@ async function cargarTareas() {
 
         data.lista.forEach((t, i) => {
             const li = document.createElement("li");
-            li.textContent = `${i}. [${t.tipo}] ${t.titulo} – Marcada: ${t.marcada} `;
+            li.textContent = `${i}. [${t.tipo}] ${t.titulo}`;
+
+            // Si la tarea está marcada, tachado
+            if (t.marcada) {
+                li.style.textDecoration = "line-through";
+                li.style.color = "#777";
+            }
 
             // Botón Editar
             const btnEditar = document.createElement("button");
             btnEditar.textContent = "Editar";
-            btnEditar.style.marginLeft = "10px";
+            btnEditar.style.backgroundColor = "#2196F3";
+            btnEditar.style.color = "white";
             btnEditar.addEventListener("click", async () => {
                 const nuevoTitulo = prompt("Nuevo título:", t.titulo);
                 if (!nuevoTitulo) return;
@@ -33,7 +40,8 @@ async function cargarTareas() {
             // Botón Eliminar
             const btnEliminar = document.createElement("button");
             btnEliminar.textContent = "Eliminar";
-            btnEliminar.style.marginLeft = "5px";
+            btnEliminar.style.backgroundColor = "#f44336";
+            btnEliminar.style.color = "white";
             btnEliminar.addEventListener("click", async () => {
                 if (!confirm(`¿Eliminar la tarea "${t.titulo}"?`)) return;
 
@@ -41,12 +49,30 @@ async function cargarTareas() {
                 cargarTareas();
             });
 
+            // Botón Marcar/Desmarcar
+            const btnMarcar = document.createElement("button");
+            btnMarcar.textContent = t.marcada ? "Desmarcar" : "Marcar";
+            btnMarcar.style.backgroundColor = "#4CAF50";
+            btnMarcar.style.color = "white";
+            btnMarcar.addEventListener("click", async () => {
+                await fetch(`${BASE}/tareas/${i}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ marcada: !t.marcada })
+                });
+                cargarTareas();
+            });
+
+            // Añadir botones a la lista
+            li.appendChild(btnMarcar);
             li.appendChild(btnEditar);
             li.appendChild(btnEliminar);
+
             lista.appendChild(li);
         });
     } catch (error) {
         console.error("Error cargando tareas:", error);
+        lista.innerHTML = `<li style="color:red;">Error cargando tareas: ${error.message}</li>`;
     }
 }
 
